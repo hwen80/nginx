@@ -4,7 +4,6 @@ RUN	apk add --no-cache nginx curl && \
 	mkdir /run/nginx && \
 	touch /run/nginx/nginx.pid
 
-COPY	boot.sh /
 COPY	default.conf /etc/nginx/conf.d/
 COPY	index.html /var/www/html/index.html
 
@@ -16,4 +15,4 @@ EXPOSE 80
 HEALTHCHECK --interval=5m --timeout=3s CMD curl -f http://localhost || exit 1
 
 ENTRYPOINT [ "/sbin/tini", "-e 143", "--" ]
-CMD [ "/boot.sh" ]
+CMD [ "nginx", "-g", "daemon off;" ]
